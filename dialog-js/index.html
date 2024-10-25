@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <!--Modal 1-->
+    <button data-open-modal-target="modal_1">Open modal 1</button>
+    <div id="modal_1" class="modal">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 500px;
+        "
+      >
+        <h3>Title</h3>
+        <button data-close-modal-target="modal_1">X</button>
+      </div>
+      <div style="height: 200px">Content 1</div>
+    </div>
+
+    <!--Modal 2-->
+    <button data-open-modal-target="modal_2">Open modal 2</button>
+    <div id="modal_2" class="modal">
+      <div
+        style="
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          width: 500px;
+        "
+      >
+        <h3>Title</h3>
+        <button data-close-modal-target="modal_2">X</button>
+      </div>
+      <div style="height: 200px">Content 2</div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>
