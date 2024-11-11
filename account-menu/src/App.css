@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ddMenu {
+  position: relative;
+  height: max-content;
+}
+
+.ddMenuContent {
+  position: absolute;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  list-style: none;
+  width: 100px;
+}
+
+.ddItem {
+  padding: 5px;
+}
+
+.ddItem-focus {
+  background-color: lightgrey;
+}
+
+.ddItem:hover {
+  background-color: lightgrey;
+  cursor: default;
+}
