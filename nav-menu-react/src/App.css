@@ -1,0 +1,53 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.navmenu {
+  display: flex;
+  gap: 20px;
+}
+
+.ddContainer {
+  position: relative;
+}
+
+.ddTrigger {
+  background: transparent;
+  border: none;
+  width: max-content;
+}
+
+.ddTrigger:focus {
+  outline: none;
+  border: 1px solid blue;
+}
+
+.ddMenu {
+  list-style: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 10px;
+  background-color: white;
+}
+
+.ddMenuListItem {
+  width: 150px;
+}
+
+.ddMenuListItem:hover {
+  background-color: lightgrey;
+}
+
+.ddMenuItem {
+  width: max-content;
+  text-decoration: none;
+}
+
+.ddMenuItem:focus {
+  outline: none;
+  border: 1px solid blue;
+}
