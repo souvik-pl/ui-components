@@ -11,7 +11,7 @@ function ConfigDrivenForm({ formConfig }) {
   };
 
   // Validation function
-  const validateField = (name, value, validations) => {
+  const validateField = (value, validations) => {
     if (validations.required && !value) {
       return validations.errorMessage || "This field is required.";
     }
@@ -40,11 +40,7 @@ function ConfigDrivenForm({ formConfig }) {
     let isValid = true;
 
     formConfig.forEach((field) => {
-      const error = validateField(
-        field.name,
-        formValues[field.name],
-        field.validations
-      );
+      const error = validateField(formValues[field.name], field.validations);
       if (error) {
         isValid = false;
         formErrors[field.name] = error;
