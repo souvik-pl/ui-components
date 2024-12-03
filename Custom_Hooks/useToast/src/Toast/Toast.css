@@ -1,0 +1,48 @@
+.container {
+  position: fixed;
+  z-index: 10;
+  width: 250px;
+}
+
+.bottom-right {
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.bottom-left {
+  left: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.top-right {
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.top-left {
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.toast {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+  margin: 5px 0px;
+}
+
+.closeBtn {
+  cursor: default;
+}
