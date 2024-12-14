@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ToastContext } from "./useToast";
 import "./Toast.css";
 
-function ToastProvider({ children, position = "top-right", timer = 1000 }) {
+function ToastProvider({ children, position = "top-right", timer = 4000 }) {
   const [toastList, setToastList] = useState([]);
 
   const toast = ({ variant, message }) => {
@@ -13,11 +13,16 @@ function ToastProvider({ children, position = "top-right", timer = 1000 }) {
       message,
     };
     setToastList((prevToasts) => [...prevToasts, newToast]);
+    setTimeout(() => handleClose(newToast.id), timer || 4000);
   };
 
   const handleClose = (id) => {
-    const newToastList = toastList.filter((toast) => toast.id !== id);
-    setToastList(newToastList);
+    /**
+     * TODO: Doesn't work with the commented line. find out why?
+     */
+    // const newToastList = toastList.filter((toast) => toast.id !== id);
+    // setToastList(newToastList);
+    setToastList((prev) => prev.filter((toast) => toast.id !== id));
   };
 
   const toastColor = (variant) => {
@@ -34,16 +39,6 @@ function ToastProvider({ children, position = "top-right", timer = 1000 }) {
         return "blue";
     }
   };
-
-  useEffect(() => {
-    // Automatically remove the toast after the specified timer
-    const timeouts = toastList.map((toast) =>
-      setTimeout(() => handleClose(toast.id), timer)
-    );
-
-    // Cleanup timeouts on component unmount or when toastList changes
-    return () => timeouts.forEach((timeout) => clearTimeout(timeout));
-  }, [toastList, timer]);
 
   return (
     <ToastContext.Provider value={{ toast }}>
