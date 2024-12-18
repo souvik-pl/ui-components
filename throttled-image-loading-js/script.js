@@ -13,6 +13,16 @@ function throttle(fn, delay) {
   };
 }
 
+/**
+ * There is a performance overhead of using `getBoundingClientRect()`. It triggers "Reflow".
+ * getBoundingClientRect forces the browser to recalculate the layout and style information of the document.
+ * If used in performance-critical scenarios (e.g., inside a scroll or resize event),
+ * it can degrade performance, especially when used repeatedly.
+ *
+ * In the below scenario, we can use intersection observer to know when an image comes to the viewport.
+ * And then load the image
+ */
+
 function loadImages() {
   const imageList = document.querySelectorAll(`.${imageClassName}`);
   imageList.forEach((image) => {
