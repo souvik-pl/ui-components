@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.tabContainer {
+  width: 350px;
+  border-bottom: 1px solid lightgrey;
+  display: flex;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  padding: 0 10px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  cursor: default;
+}
+
+.tab-active {
+  background-color: lightblue;
+}
+
+.tab-disable {
+  pointer-events: none;
+  opacity: 0.5;
+}
+
+.tab-focus {
+  border: 1px solid blue;
+}
+
+.tab:hover {
+  background-color: lightgray;
+}
