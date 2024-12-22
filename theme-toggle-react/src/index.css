@@ -1,0 +1,25 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Light colors */
+  --text_light: #000000;
+  --background_light: #eeeeee;
+
+  /* Dark colors */
+  --text_dark: #ffffff;
+  --background_dark: #424242;
+}
+
+.light {
+  --text: var(--text_light);
+  --background: var(--background_light);
+}
+
+.dark {
+  --text: var(--text_dark);
+  --background: var(--background_dark);
+}
