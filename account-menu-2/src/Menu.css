@@ -1,0 +1,25 @@
+.menu {
+  position: relative;
+  height: max-content;
+}
+
+.menu_list {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100px;
+  z-index: 10;
+  background-color: #fff;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  list-style: none;
+}
+
+.menu_item {
+  padding: 5px;
+  cursor: default;
+}
+
+.menu_item:hover,
+.menu_item-active {
+  background-color: lightgrey;
+}
