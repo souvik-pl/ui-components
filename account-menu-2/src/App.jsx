@@ -34,7 +34,7 @@ export default function App() {
         width: "100vw",
         height: "100vh",
         display: "flex",
-        // alignItems: "center",
+        // alignItems: "flex-start",
         // justifyContent: "flex-end",
       }}
     >
