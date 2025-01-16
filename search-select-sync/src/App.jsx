@@ -47,7 +47,6 @@ function App() {
     <SelectSync
       options={MENU_LIST}
       value={value}
-      isMulti={false}
       placeholder="Search and select"
       onSelect={onSelect}
       maxSelectionCount={5}
