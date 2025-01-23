@@ -1,0 +1,46 @@
+.arrow {
+  position: absolute;
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+.arrow:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.arrow_left {
+  left: 0;
+}
+
+.arrow_right {
+  right: 0;
+}
+
+.indicatorContainer {
+  position: absolute;
+  bottom: 5px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 5px;
+}
+
+.indicator {
+  width: 8px;
+  height: 8px;
+  border: 1px solid white;
+  border-radius: 50%;
+}
+
+.indicator:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.indicator_focused {
+  background-color: white;
+}
