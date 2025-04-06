@@ -24,10 +24,6 @@ const MENU_LIST = [
 ];
 
 export default function App() {
-  const handleOnSelect = (value) => {
-    console.log(value);
-  };
-
   return (
     <div
       style={{
@@ -62,5 +58,5 @@ export default function App() {
  * 6. Press enter and select ✅
  * 7. Press escape and close ✅
  * 8. Compound component - prevent/handle errors when someone passes the wrong structure/components inside the Menu ✅
- * 9. Positioning
+ * 9. Positioning ✅
  */
