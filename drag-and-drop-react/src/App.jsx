@@ -1,5 +1,6 @@
 import { useState, Fragment, useEffect } from "react";
 import "./App.css";
+import trashIcon from "./assets/trash.svg";
 
 const KanbanBoard = ({ boardData, handleChange }) => {
   const [sectionInputNameVisible, setSectionInputNameVisible] = useState(false);
@@ -60,16 +61,10 @@ const KanbanBoard = ({ boardData, handleChange }) => {
     handleChange(sectionList);
   };
 
-  useEffect(() => {
-    console.log(draggedElement);
-  }, [draggedElement]);
-
   const handleDragOver = (e) => {
     e.preventDefault();
     const sectionId = e.target.dataset.sectionId;
     const taskIndex = e.target.dataset.taskIndex;
-
-    console.log(e.target.dataset);
 
     if (sectionId) {
       setDragOverElement({
@@ -82,13 +77,11 @@ const KanbanBoard = ({ boardData, handleChange }) => {
   const handleDrop = (e) => {
     e.preventDefault();
     const sectionList = [...boardData];
-    console.log(e.target.dataset);
 
     if (!e.target.dataset.sectionId) {
       const section = sectionList.find(
         (section) => section.id === draggedElement.task.parentId
       );
-      console.log(section);
 
       section.taskList.splice(
         draggedElement.originalIndex,
@@ -116,11 +109,30 @@ const KanbanBoard = ({ boardData, handleChange }) => {
     handleChange(sectionList);
   };
 
+  const deleteSection = (sectionIndex) => {
+    const sectionList = [...boardData];
+    sectionList.splice(sectionIndex, 1);
+    handleChange(sectionList);
+  };
+
+  const deleteTask = (sectionIndex, taskIndex) => {
+    const sectionList = [...boardData];
+    const taskList = sectionList[sectionIndex].taskList;
+    taskList.splice(taskIndex, 1);
+    handleChange(sectionList);
+  };
+
   return (
     <div className="board" onDrop={handleDrop} onDragOver={handleDragOver}>
-      {boardData.map((section) => (
+      {boardData.map((section, sectionIndex) => (
         <div key={section.id} className="section">
-          <h3>{section.title}</h3>
+          <div className="section_header">
+            <h3>{section.title}</h3>
+            <button onClick={() => deleteSection(sectionIndex)}>
+              <img src={trashIcon} />
+            </button>
+          </div>
+
           <div
             data-section-id={section.id}
             className={
@@ -140,6 +152,9 @@ const KanbanBoard = ({ boardData, handleChange }) => {
                   onDrag={() => handleDrag(section.id, taskIndex)}
                 >
                   {task.detail}
+                  <button onClick={() => deleteTask(sectionIndex, taskIndex)}>
+                    <img src={trashIcon} />
+                  </button>
                 </div>
                 <div
                   data-section-id={section.id}
@@ -234,7 +249,6 @@ const App = () => {
   ]);
 
   const handleChange = (data) => {
-    console.log(data);
     setBoardData(data);
   };
 

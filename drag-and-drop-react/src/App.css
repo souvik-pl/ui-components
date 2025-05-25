@@ -22,6 +22,22 @@
   padding: 8px;
 }
 
+.section_header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.section_header button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.section_header button img {
+  width: 15px;
+}
+
 .create_section_btn {
   width: 100%;
   background: none;
@@ -79,6 +95,24 @@
   border: 1px solid black;
   border-radius: 4px;
   cursor: grab;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.task button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  visibility: hidden;
+}
+
+.task button img {
+  width: 15px;
+}
+
+.task:hover button {
+  visibility: visible;
 }
 
 .task_slot {
