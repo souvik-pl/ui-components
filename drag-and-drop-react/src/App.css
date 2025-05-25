@@ -1,0 +1,93 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  padding: 10px;
+}
+
+.board {
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: auto;
+  display: flex;
+  gap: 15px;
+}
+
+.section {
+  flex: 0 0 auto;
+  width: 300px;
+  height: max-content;
+  border: 1px solid lightgray;
+  border-radius: 4px;
+  padding: 8px;
+}
+
+.create_section_btn {
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.create_section_input {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.create_section_input input {
+  width: 60%;
+  height: 100%;
+}
+
+.create_section_input button {
+  width: 18%;
+  height: 100%;
+}
+
+.create_task {
+  width: 100%;
+  border: 1px solid gray;
+  border-radius: 4px;
+  margin-top: 10px;
+  padding: 10px;
+}
+
+.create_task textarea {
+  width: 100%;
+  max-width: 100%;
+  min-width: 100%;
+}
+
+.create_task_button {
+  width: 100%;
+  padding: 10px;
+  border: 1px dashed gray;
+  border-radius: 4px;
+  cursor: pointer;
+  background: none;
+  margin-top: 10px;
+}
+
+.task_container {
+  margin-top: 10px;
+}
+
+.task {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid black;
+  border-radius: 4px;
+  cursor: grab;
+}
+
+.task_slot {
+  height: 10px;
+}
+
+.task_slot_active {
+  height: 50px;
+  background-color: lightgray;
+  border-radius: 4px;
+  margin: 10px 0px;
+}
