@@ -1,4 +1,4 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment } from "react";
 import "./App.css";
 import trashIcon from "./assets/trash.svg";
 
@@ -129,7 +129,7 @@ const KanbanBoard = ({ boardData, handleChange }) => {
           <div className="section_header">
             <h3>{section.title}</h3>
             <button onClick={() => deleteSection(sectionIndex)}>
-              <img src={trashIcon} />
+              <img className="section_delete" src={trashIcon} />
             </button>
           </div>
 
