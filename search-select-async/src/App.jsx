@@ -89,6 +89,6 @@ export default App;
  * 7. Max selection count ✅
  * 8. Open/close dropdown ✅
  * 9. Keyboard functionalities - Up, Down, Enter, Escape ✅
- * 10. Handling Compound components errors
+ * 10. Handling Compound components errors ✅
  * 11. Positioning of the dropdown list
  */

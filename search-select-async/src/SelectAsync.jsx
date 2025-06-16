@@ -10,6 +10,8 @@ import "./App.css";
 
 //Hooks
 const DataContext = createContext();
+const MenuContext = createContext();
+const MenuListContext = createContext();
 
 const useDataContext = () => {
   const context = useContext(DataContext);
@@ -78,7 +80,11 @@ const useClickOutside = (ref, handler) => {
 
 // Components
 const Menu = ({ children }) => {
-  return <div className="menu">{children}</div>;
+  return (
+    <MenuContext.Provider value={true}>
+      <div className="menu">{children}</div>
+    </MenuContext.Provider>
+  );
 };
 
 Menu.ChipItem = ({ item, onRemove }) => {
@@ -103,10 +109,16 @@ Menu.Chip = () => {
 };
 
 Menu.Search = () => {
+  const menuContext = useContext(MenuContext);
   const [inputText, setInputText] = useState("");
   const debouncedInputText = useDebounce(inputText, 400);
   const { placeholder, setSearchQuery, setOpen, value, onSelect } =
     useDataContext();
+
+  if (!menuContext) {
+    console.error("Menu.Search component must be used within Menu component");
+    return null;
+  }
 
   useEffect(() => {
     setSearchQuery(debouncedInputText);
@@ -143,6 +155,7 @@ Menu.Search = () => {
 };
 
 Menu.List = ({ children }) => {
+  const menuContext = useContext(MenuContext);
   const listRef = useRef();
   const {
     open,
@@ -155,6 +168,11 @@ Menu.List = ({ children }) => {
     filteredOptions,
     searchQuery,
   } = useDataContext();
+
+  if (!menuContext) {
+    console.error("Menu.List component must be used within Menu component");
+    return null;
+  }
 
   useClickOutside(listRef, () => setOpen(false));
 
@@ -198,28 +216,48 @@ Menu.List = ({ children }) => {
 
   return (
     open && (
-      <ul ref={listRef} className="menu_dropdown">
-        {Children.map(children, (child, index) => (
-          <li
-            key={index}
-            className={`menu_item ${
-              focusIndex === index ? "menu_item-active" : ""
-            }`}
-            onClick={() => handleSelect(child.props.item)}
-          >
-            {child}
-          </li>
-        ))}
-      </ul>
+      <MenuListContext.Provider value={true}>
+        <ul ref={listRef} className="menu_dropdown">
+          {Children.map(children, (child, index) => (
+            <li
+              key={index}
+              className={`menu_item ${
+                focusIndex === index ? "menu_item-active" : ""
+              }`}
+              onClick={() => handleSelect(child.props.item)}
+            >
+              {child}
+            </li>
+          ))}
+        </ul>
+      </MenuListContext.Provider>
     )
   );
 };
 
 Menu.Item = ({ item }) => {
+  const menuListContext = useContext(MenuListContext);
+
+  if (!menuListContext) {
+    console.error(
+      "Menu.Item component must be used within Menu.List component"
+    );
+    return null;
+  }
+
   return <>{item.label}</>;
 };
 
 Menu.Loader = () => {
+  const menuListContext = useContext(MenuListContext);
+
+  if (!menuListContext) {
+    console.error(
+      "Menu.Loader component must be used within Menu.List component"
+    );
+    return null;
+  }
+
   return <div className="loading">Loading...</div>;
 };
 
