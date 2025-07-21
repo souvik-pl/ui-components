@@ -1,4 +1,3 @@
-import React from "react";
 import MainPage from "./MainPage/MainPage";
 import ToastProvider from "./Toast/ToastProvider";
 
