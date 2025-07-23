@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, useRef } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 
 const useFetch = (url, manualTrigger = false) => {
   const [data, setData] = useState(null);
