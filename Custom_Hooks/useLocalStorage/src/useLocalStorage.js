@@ -7,11 +7,11 @@ export const useLocalStorage = (key, initialValue) => {
       return JSON.parse(savedValue);
     }
 
-    if (typeof data === "function") {
-      return data();
+    if (typeof initialValue === "function") {
+      return initialValue();
     }
 
-    return data;
+    return initialValue;
   });
 
   useEffect(() => {
