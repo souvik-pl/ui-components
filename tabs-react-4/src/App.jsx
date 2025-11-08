@@ -7,6 +7,9 @@ import {
 } from "react";
 
 const DataContext = createContext();
+const TabContext = createContext();
+const TabTriggerListContext = createContext();
+const TabPanelListContext = createContext();
 
 const useDataContext = () => {
   const context = useContext(DataContext);
@@ -24,12 +27,22 @@ const Tabs = ({ children, selectedTab, onSelect }) => {
     <DataContext.Provider
       value={{ selectedTab, onSelect, focusIndex, setFocusIndex }}
     >
-      <div>{children}</div>
+      <TabContext.Provider value={true}>
+        <div>{children}</div>
+      </TabContext.Provider>
     </DataContext.Provider>
   );
 };
 
 Tabs.TabTriggerList = ({ children }) => {
+  const context = useContext(TabContext);
+  if (!context) {
+    console.error(
+      "Tabs.TabTriggerList component must be used within Tabs component"
+    );
+    return null;
+  }
+
   const { selectedTab, onSelect, focusIndex, setFocusIndex } = useDataContext();
 
   useEffect(() => {
@@ -68,34 +81,64 @@ Tabs.TabTriggerList = ({ children }) => {
   };
 
   return (
-    <div style={{ display: "flex", gap: "10px" }}>
-      {Children.map(children, (child, index) => (
-        <button
-          key={index}
-          onClick={() => clickHandler(child.props.triggerFor, index)}
-          disabled={child.props.disabled}
-          style={{
-            backgroundColor:
-              selectedTab === child.props.triggerFor ? "lightblue" : "white",
-            border: focusIndex === index ? "2px solid blue" : "1px solid black",
-          }}
-        >
-          {child}
-        </button>
-      ))}
-    </div>
+    <TabTriggerListContext.Provider value={true}>
+      <div style={{ display: "flex", gap: "10px" }}>
+        {Children.map(children, (child, index) => (
+          <button
+            key={index}
+            onClick={() => clickHandler(child.props.triggerFor, index)}
+            disabled={child.props.disabled}
+            style={{
+              backgroundColor:
+                selectedTab === child.props.triggerFor ? "lightblue" : "white",
+              border:
+                focusIndex === index ? "2px solid blue" : "1px solid black",
+            }}
+          >
+            {child}
+          </button>
+        ))}
+      </div>
+    </TabTriggerListContext.Provider>
   );
 };
 
 Tabs.TabTrigger = ({ children, triggerFor, disabled }) => {
+  const context = useContext(TabTriggerListContext);
+  if (!context) {
+    console.error(
+      "Tabs.TabTrigger component must be used within Tabs.TabTriggerList component"
+    );
+    return null;
+  }
   return <>{children}</>;
 };
 
 Tabs.TabPanelList = ({ children }) => {
-  return <div>{children}</div>;
+  const context = useContext(TabContext);
+  if (!context) {
+    console.error(
+      "Tabs.TabTriggerList component must be used within Tabs component"
+    );
+    return null;
+  }
+
+  return (
+    <TabPanelListContext.Provider value={true}>
+      <div>{children}</div>
+    </TabPanelListContext.Provider>
+  );
 };
 
 Tabs.Panel = ({ children, value }) => {
+  const context = useContext(TabPanelListContext);
+  if (!context) {
+    console.error(
+      "Tabs.Panel component must be used within Tabs.TabPanelList component"
+    );
+    return null;
+  }
+
   const { selectedTab } = useDataContext();
   return selectedTab === value && <div>{children}</div>;
 };
@@ -144,4 +187,5 @@ export default App;
  * Controlled component ✅
  * Click to view Tab content ✅
  * Keyboard navigation ✅
+ * Compound component restriction ✅
  */
