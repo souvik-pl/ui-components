@@ -4,9 +4,9 @@ function OTPInput({ length, onChange }) {
   const inputRefList = useRef(new Array(length).fill(null));
 
   const focusAndSelectInput = (index) => {
-    if (index > inputRefList.current.length - 1 || index < 0) return;
-    inputRefList.current[index].focus();
-    inputRefList.current[index].select();
+    if (index >= 0 && index < length) {
+      inputRefList.current[index].focus();
+    }
   };
 
   const changeHandler = (e, index) => {
@@ -49,6 +49,7 @@ function OTPInput({ length, onChange }) {
           type="number"
           ref={(el) => (inputRefList.current[index] = el)}
           onChange={(event) => changeHandler(event, index)}
+          onFocus={(event) => event.target.select()}
         />
       ))}
     </div>
