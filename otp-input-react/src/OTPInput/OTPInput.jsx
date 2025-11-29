@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 function OTPInput({ length, onChange }) {
   const inputRefList = useRef(new Array(length).fill(null));
 
-  const focusAndSelectInput = (index) => {
+  const focusInput = (index) => {
     if (index >= 0 && index < length) {
       inputRefList.current[index].focus();
     }
@@ -14,9 +14,9 @@ function OTPInput({ length, onChange }) {
     e.target.value = value;
 
     if (value !== "") {
-      focusAndSelectInput(index + 1);
+      focusInput(index + 1);
     } else {
-      focusAndSelectInput(index - 1);
+      focusInput(index - 1);
     }
 
     assembleOTP();

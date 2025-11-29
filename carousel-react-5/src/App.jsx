@@ -259,5 +259,5 @@ export default App;
 - Autoplay (pause, resume, timer) ✅
 - Loop ✅
 - Keyboard navigation ✅
-- Compound component restriction
+- Compound component restriction ✅
 */
