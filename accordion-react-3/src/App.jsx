@@ -2,41 +2,38 @@ import { createContext, useContext, useState } from "react";
 
 const ITEMS = [
   {
-    id: "acc_1",
-    title: "Accordion 1",
-    content: "Hello from Accordion 1",
+    id: "a1",
+    title: "Title 1",
+    content: "Content 1",
   },
   {
-    id: "acc_2",
-    title: "Accordion 2",
-    content: "Hello from Accordion 2",
+    id: "a2",
+    title: "Title 2",
+    content: "Content 2",
   },
   {
-    id: "acc_3",
-    title: "Accordion 3",
-    content: "Hello from Accordion 3",
+    id: "a3",
+    title: "Title 3",
+    content: "Content 3",
   },
 ];
 
 const DataContext = createContext();
-const AccordionContext = createContext();
-const AccordionItemContext = createContext();
 
 const useDataContext = () => {
   const context = useContext(DataContext);
   if (!context) {
-    throw new Error("useDataContext must be used within Accordion component");
+    throw new Error("DataContext must be used within Accordion component");
   }
-
   return context;
 };
 
-const Accordion = ({ children, defaultOpenList, multiOpen, onChange }) => {
-  const [openList, setOpenList] = useState(defaultOpenList || []);
+const AccordionContext = createContext();
+const AccordionItemContext = createContext();
+
+const Accordion = ({ children, openItems, setOpenItems, multi = true }) => {
   return (
-    <DataContext.Provider
-      value={{ openList, setOpenList, multiOpen, onChange }}
-    >
+    <DataContext.Provider value={{ openItems, setOpenItems, multi }}>
       <AccordionContext.Provider value={true}>
         <div>{children}</div>
       </AccordionContext.Provider>
@@ -61,6 +58,8 @@ Accordion.Item = ({ children }) => {
 };
 
 Accordion.Trigger = ({ children, value }) => {
+  const { openItems, setOpenItems, multi } = useDataContext();
+
   const context = useContext(AccordionItemContext);
   if (!context) {
     console.error(
@@ -69,26 +68,32 @@ Accordion.Trigger = ({ children, value }) => {
     return null;
   }
 
-  const { openList, setOpenList, multiOpen, onChange } = useDataContext();
-  const handleTriggerClick = () => {
-    let newOpenList = [];
-    if (openList.includes(value)) {
-      newOpenList = openList.filter((item) => item !== value);
+  const toggleAccordion = () => {
+    if (openItems.includes(value)) {
+      setOpenItems((prev) => prev.filter((item) => item !== value));
     } else {
-      if (multiOpen) {
-        newOpenList = [...openList, value];
+      if (multi) {
+        setOpenItems((prev) => [...prev, value]);
       } else {
-        newOpenList = [value];
+        setOpenItems([value]);
       }
     }
-    setOpenList(newOpenList);
-    onChange?.(newOpenList);
   };
 
-  return <button onClick={handleTriggerClick}>{children}</button>;
+  return (
+    <button
+      onClick={toggleAccordion}
+      aria-expanded={openItems.includes(value)}
+      aria-controls={`section-${value}`}
+      id={`trigger-${value}`}
+    >
+      {children}
+    </button>
+  );
 };
 
 Accordion.Content = ({ children, value }) => {
+  const { openItems } = useDataContext();
   const context = useContext(AccordionItemContext);
   if (!context) {
     console.error(
@@ -97,16 +102,20 @@ Accordion.Content = ({ children, value }) => {
     return null;
   }
 
-  const { openList } = useDataContext();
-  return openList.includes(value) && <div>{children}</div>;
+  return (
+    openItems.includes(value) && (
+      <div id={`section-${value}`} aria-labelledby={`trigger-${value}`}>
+        {children}
+      </div>
+    )
+  );
 };
 
 function App() {
+  const [openItems, setOpenItems] = useState(["a2"]);
+
   return (
-    <Accordion
-      defaultOpenList={["acc_1"]}
-      onChange={(openList) => console.log(openList)}
-    >
+    <Accordion multi={false} openItems={openItems} setOpenItems={setOpenItems}>
       {ITEMS.map((item) => (
         <Accordion.Item key={item.id}>
           <Accordion.Trigger value={item.id}>{item.title}</Accordion.Trigger>
@@ -118,3 +127,23 @@ function App() {
 }
 
 export default App;
+
+/*
+
+<Accordion multi={true} openItems={['a1', 'a2']} onChange={}>
+  <Accordion.Item>
+    <Accordion.Trigger value={'a1'}></Accordion.Trigger>
+    <Accordion.Content value={'a1'}></Accordion.Content>
+  </Accordion.Item>
+  <Accordion.Item>
+    <Accordion.Trigger value={'a2'}></Accordion.Trigger>
+    <Accordion.Content value={'a2'}></Accordion.Content>
+  </Accordion.Item>
+</Accordion>
+
+- Basic UI (following compound component pattern) ✅
+- Controlled component ✅
+- Compound component restrictions ✅
+- Accessibility ✅
+
+*/
