@@ -51,18 +51,30 @@ const useAggregatedList = (list) => {
   return aggregatedList;
 };
 
-const InfiniteScroll = ({ width, height, list, loading, onPageEnd }) => {
-  const observerRef = useRef();
-  const containerRef = useRef();
+const InfiniteScroll = ({
+  width,
+  height,
+  list,
+  loading,
+  onPageEnd, // Make sure onPageEnd reference is stable, as it is used as dependency in useEffect
+}) => {
+  const observerRef = useRef(null);
+  const containerRef = useRef(null);
 
   const isScrollPresent = useCallback(() => {
+    if (!containerRef.current) return false;
+
     const clientHeight = containerRef.current.clientHeight;
     const scrollHeight = containerRef.current.scrollHeight;
     return scrollHeight > clientHeight;
-  }, [containerRef]);
+  }, []);
 
   useEffect(() => {
-    let observer;
+    if (!observerRef.current) return;
+
+    let observer = null;
+    const observerElement = observerRef.current;
+
     if (list.length > 0 && isScrollPresent()) {
       observer = new IntersectionObserver((entries) => {
         const entry = entries[0];
@@ -70,18 +82,20 @@ const InfiniteScroll = ({ width, height, list, loading, onPageEnd }) => {
           onPageEnd();
         }
       });
-      observer.observe(observerRef.current);
+      observer.observe(observerElement);
     }
-
-    console.log(list);
-    console.log(isScrollPresent());
 
     if (list.length > 0 && !isScrollPresent()) {
       onPageEnd();
     }
 
-    return () => observer && observer.unobserve(observerRef.current);
-  }, [list.length, isScrollPresent]);
+    return () => {
+      if (observer && observerElement) {
+        observer.unobserve(observerElement);
+        observer.disconnect();
+      }
+    };
+  }, [list.length, isScrollPresent, onPageEnd]);
 
   return (
     <div ref={containerRef} style={{ width, height, overflowY: "auto" }}>
@@ -117,6 +131,10 @@ function App() {
   const { data, loading, error } = useFetch(url);
   const aggregatedList = useAggregatedList(data ? data.products : []);
 
+  const onPageEnd = useCallback(() => {
+    setSkip((prev) => prev + 3);
+  }, []);
+
   return (
     <div
       style={{
@@ -137,7 +155,7 @@ function App() {
             {item.title}
           </div>
         ))}
-        onPageEnd={() => setSkip(skip + 3)}
+        onPageEnd={onPageEnd}
       />
     </div>
   );
